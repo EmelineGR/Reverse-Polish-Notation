@@ -72,7 +72,7 @@ Permet d'ajouter le nouvel élément créé avec create à la pile
 
 pile_t* ajout (pile_t* pile, pile_t* element)
 {
-    if ( pile == NULL ) /* si rien pour le moment, débute une pile*/
+    if ( pile == NULL )
     {
         element->precedent = NULL;
         return element;
@@ -83,7 +83,7 @@ pile_t* ajout (pile_t* pile, pile_t* element)
 
 /**************************************************************/
 /* 
-transforme l'instruction en int
+Transforme l'instruction en int
 */
 
 int en_int (char instruction[INST])
@@ -108,7 +108,7 @@ int est_int (char instruction[INST])
 
 /**************************************************************/
 /* 
-fais une addition sur les 2 élément du dessus de la pile
+Fait une addition sur les 2 élément du dessus de la pile
 */
 
 pile_t* add (pile_t* element)
@@ -134,7 +134,7 @@ pile_t* add (pile_t* element)
 
 /**************************************************************/
 /* 
-fais une soustraction sur les 2 élément du dessus de la pile
+Fait une soustraction sur les 2 élément du dessus de la pile
 */
 
 pile_t* sub (pile_t* element)
@@ -160,7 +160,7 @@ pile_t* sub (pile_t* element)
 
 /**************************************************************/
 /* 
-fais une multiplication sur les 2 élément du dessus de la pile
+Fait une multiplication sur les 2 élément du dessus de la pile
 */
 
 pile_t* mul (pile_t* element)
@@ -186,7 +186,7 @@ pile_t* mul (pile_t* element)
 
 /**************************************************************/
 /* 
-fais une division sur les 2 élément du dessus de la pile
+Fait une division sur les 2 élément du dessus de la pile
 */
 
 pile_t* division (pile_t* element)
@@ -223,7 +223,7 @@ pile_t* division (pile_t* element)
 
 /**************************************************************/
 /* 
-fais un modulo sur les 2 élément du dessus de la pile
+Fait l'oppération modulo sur les 2 éléments du dessus de la pile
 */
 
 pile_t* mod (pile_t* element)
@@ -254,7 +254,7 @@ fais une duplication du dernier élément entrée dans la pile
 
 pile_t* dup (pile_t* element)
 {
-   if ( element == NULL ) /* la pile est vide */
+   if ( element == NULL )
         return NULL;
     return ajout(element, create(element->valeur, element));
 }
