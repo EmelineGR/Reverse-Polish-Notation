@@ -5,7 +5,6 @@
 
 #define INST 11
 #define CONV 10
-int error = 0;
 
 /**************************************************************/
 /* 
@@ -23,11 +22,11 @@ Permet d'afficher la pile
 */
 void affi_pile(pile_t* element, int niveau)
 {
-    if ( element != NULL) 
+    if (element != NULL) 
     {
         affi_pile(element->precedent, niveau + 1);
         printf("%d", element->valeur);
-        if ( niveau != 0){printf(" ");}
+        if (niveau != 0){printf(" ");}
     }
 }
 
@@ -45,6 +44,22 @@ pile_t* pop (pile_t* element)
         free(element);
     }
     return new_element;
+}
+
+/**************************************************************/
+/* 
+Supprime toute la pile
+*/
+
+void free_pile(pile_t* element)
+{
+  pile_t* n;
+  while(element != NULL)
+    {
+      n = element->precedent;
+      free(element);
+      element = n;
+    }
 }
 
 /**************************************************************/
@@ -120,14 +135,13 @@ pile_t* add (pile_t* element)
         int element_1 = element->precedent->valeur;
         int element_2 = element->valeur;
         pile_t* element_precedent = element->precedent->precedent;
-        free(element);
-        free(element->precedent);
+        element = pop(pop(element));
         return create(element_1+element_2, element_precedent);
     }
         else
     {
-        error = 1;
-        element = pop(element);
+        printf("ERROR\n"); 
+        exit(1);
         return element;
     }
 }
@@ -146,14 +160,13 @@ pile_t* sub (pile_t* element)
         int element_1 = element->precedent->valeur;
         int element_2 = element->valeur;
         pile_t* element_precedent = element->precedent->precedent;
-        free(element);
-        free(element->precedent);
+        element = pop(pop(element));
         return create(element_1-element_2, element_precedent);
     }
         else
     {
-        error = 1;
-        element = pop(element);
+        printf("ERROR\n"); 
+        exit(1);
         return element;
     }
 }
@@ -172,14 +185,13 @@ pile_t* mul (pile_t* element)
         int element_1 = element->precedent->valeur;
         int element_2 = element->valeur;
         pile_t* element_precedent = element->precedent->precedent;
-        free(element);
-        free(element->precedent);
+        element = pop(pop(element));
         return create(element_1*element_2, element_precedent);
     }
         else
     {
-        error = 1;
-        element = pop(element);
+        printf("ERROR\n"); 
+        exit(1);
         return element;
     }
 }
@@ -199,24 +211,27 @@ pile_t* division (pile_t* element)
         int element_2 = element->valeur;
         if (element_2 == 0)
         {
-            error = 1;
-            element = pop(element);
-            element = pop(element);
+            element = pop(pop(element));
+            affi_pile(element,0);
+            if (element != NULL)
+                printf(" ");
+            printf("ERROR\n"); 
+            exit(1);
+            
             return element;
         }
         else
         {
             pile_t* element_precedent = element->precedent->precedent;
-            free(element);
-            free(element->precedent);
+            element = pop(pop(element));
             return create(element_1/element_2, element_precedent);
         }
 
     }
         else
     {
-        error = 1;
-        element = pop(element);
+        printf("ERROR\n"); 
+        exit(1);
         return element;
     }
 }
@@ -235,14 +250,13 @@ pile_t* mod (pile_t* element)
         int element_1 = element->precedent->valeur;
         int element_2 = element->valeur;
         pile_t* element_precedent = element->precedent->precedent;
-        free(element);
-        free(element->precedent);
+        element = pop(pop(element));
         return create(element_1%element_2, element_precedent);
     }
         else
     {
-        error = 1;
-        element = pop(element);
+        printf("ERROR");
+        exit(1);
         return element;
     }
 }
@@ -288,7 +302,8 @@ pile_t* rol (pile_t* element_rol, pile_t* element_1, int i)
 {
     if ( element_rol == NULL || element_1 == NULL )
     {
-        error = 1;
+        printf("ERROR\n"); 
+        exit(1);
         return 0;
     }
     if ( i == 1 )
@@ -331,7 +346,10 @@ pile_t* op ( pile_t* pile, char instruction[INST] )
     else if ( !strcmp("ADD", instruction))
         pile = add(pile);
     else
-        error = 1;
+    {
+        printf("ERROR \n"); 
+        exit(1);
+    }
     return pile;
 }
 
@@ -352,15 +370,8 @@ int main()
     }
     
     affi_pile(pile,0);
-        if ( error == 1)
-        {
-            if (pile != NULL )
-            {
-                printf(" ");
-            }
-            printf("ERROR");
-        }
+
     printf("\n");
-    pop(pile);
+    free_pile(pile);
     return 0;
 }
