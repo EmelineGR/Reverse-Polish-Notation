@@ -72,7 +72,7 @@ pile_t* create (int valeur, pile_t* precedent)
     pile_t* element = (pile_t*)malloc(sizeof(pile_t));
     if (element == NULL)
     {
-      printf("Plus de mémoire");
+      fprintf(stderr, "Plus de mémoire");
       exit(1);
     }
     element->valeur = valeur;
@@ -225,7 +225,6 @@ pile_t* division (pile_t* element)
             if (element != NULL)
                 printf(" ");
             errors(element);
-            
             return element;
         }
         else
@@ -304,7 +303,7 @@ pile_t* swp (pile_t* element)
 Sélectionne l'élément i de la pile et le met en haut de la pile 
 */
 
-pile_t* rol (pile_t* element_rol, pile_t* element_1, int i)
+int rol (pile_t* element_rol, pile_t* element_1, int i)
 {
     if ( element_rol == NULL || element_1 == NULL )
     {
@@ -351,9 +350,7 @@ pile_t* op ( pile_t* pile, char instruction[INST] )
     else if ( !strcmp("ADD", instruction))
         pile = add(pile);
     else
-    {
         errors(pile);
-    }
     return pile;
 }
 
@@ -372,7 +369,6 @@ int main()
         else
             pile = op(pile, instruction);
     }
-    
     affi_pile(pile,0);
     printf("\n");
     free_pile(pile);
