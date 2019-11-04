@@ -69,7 +69,7 @@ Permet de créer un nouvel élément
 
 pile_t* create (int valeur, pile_t* precedent)
 {
-    pile_t* element = (pile_t*)malloc(INST * sizeof(pile_t));
+    pile_t* element = (pile_t*)malloc(sizeof(pile_t));
     if (element == NULL)
     {
       printf("Plus de mémoire");
@@ -94,6 +94,18 @@ pile_t* ajout (pile_t* pile, pile_t* element)
     }
     element->precedent = pile;
     return element;
+}
+
+/**************************************************************/
+/* 
+Gestion des erreurs
+*/
+
+void errors(pile_t* pile)
+{
+    printf("ERROR\n"); 
+    free_pile(pile);
+    exit(1);
 }
 
 /**************************************************************/
@@ -140,8 +152,7 @@ pile_t* add (pile_t* element)
     }
         else
     {
-        printf("ERROR\n"); 
-        exit(1);
+        errors(element);
         return element;
     }
 }
@@ -165,8 +176,7 @@ pile_t* sub (pile_t* element)
     }
         else
     {
-        printf("ERROR\n"); 
-        exit(1);
+        errors(element);
         return element;
     }
 }
@@ -190,8 +200,7 @@ pile_t* mul (pile_t* element)
     }
         else
     {
-        printf("ERROR\n"); 
-        exit(1);
+        errors(element);
         return element;
     }
 }
@@ -215,8 +224,7 @@ pile_t* division (pile_t* element)
             affi_pile(element,0);
             if (element != NULL)
                 printf(" ");
-            printf("ERROR\n"); 
-            exit(1);
+            errors(element);
             
             return element;
         }
@@ -230,8 +238,7 @@ pile_t* division (pile_t* element)
     }
         else
     {
-        printf("ERROR\n"); 
-        exit(1);
+        errors(element);
         return element;
     }
 }
@@ -255,8 +262,7 @@ pile_t* mod (pile_t* element)
     }
         else
     {
-        printf("ERROR");
-        exit(1);
+        errors(element);
         return element;
     }
 }
@@ -302,8 +308,7 @@ pile_t* rol (pile_t* element_rol, pile_t* element_1, int i)
 {
     if ( element_rol == NULL || element_1 == NULL )
     {
-        printf("ERROR\n"); 
-        exit(1);
+        errors(element_1);
         return 0;
     }
     if ( i == 1 )
@@ -347,8 +352,7 @@ pile_t* op ( pile_t* pile, char instruction[INST] )
         pile = add(pile);
     else
     {
-        printf("ERROR \n"); 
-        exit(1);
+        errors(pile);
     }
     return pile;
 }
@@ -370,7 +374,6 @@ int main()
     }
     
     affi_pile(pile,0);
-
     printf("\n");
     free_pile(pile);
     return 0;
