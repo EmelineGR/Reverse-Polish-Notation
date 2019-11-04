@@ -73,7 +73,7 @@ pile_t* create (int valeur, pile_t* precedent)
     if (element == NULL)
     {
       printf("Plus de mémoire");
-      return 1;
+      exit(1);
     }
     element->valeur = valeur;
     element->precedent = precedent;
